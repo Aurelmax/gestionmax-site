@@ -50,17 +50,26 @@ export default function Contact() {
 
   return (
     <div>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary-dark to-secondary-dark text-white py-20">
-        <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6 text-white">Contact & Ressources</h1>
-            <p className="text-xl mb-8">
-              Prenez contact pour personnaliser votre formation ou accédez à nos ressources documentaires
-            </p>
-          </div>
-        </div>
-      </section>
+      {{/* Hero Section - Contact & Ressources */}
+<section
+  className="relative text-white py-20 bg-cover bg-center"
+  style={{
+    backgroundImage: "url('https://res.cloudinary.com/deebdv0jr/image/upload/v1744795094/Formation-wordpress-antibes_npzw8u.webp')",
+  }}
+>
+  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+  <div className="relative z-10 container-custom">
+    <div className="max-w-3xl mx-auto text-center">
+      <h1 className="text-5xl font-bold mb-6 text-white">Contact & Ressources</h1>
+      <p className="text-xl mb-8">
+        Prenez contact pour personnaliser votre formation ou accédez à nos ressources documentaires
+      </p>
+    </div>
+  </div>
+</section>
+
+
 
       {/* Contact Section */}
       <section className="section bg-white">
