@@ -13,24 +13,36 @@ export default function Home() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary-dark to-secondary-dark text-white py-20">
-        <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6 text-white">Formez-vous à l'autonomie digitale grâce à nos formations WordPress</h1>
-            <p className="text-xl mb-8">
-              Des formations sur-mesure pour artisans, commerçants et indépendants en région PACA
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/contact" className="btn bg-white text-primary-dark hover:bg-gray-100">
-                Personnaliser votre formation
-              </Link>
-              <Link href="/a-propos" className="btn border-2 border-white text-white hover:bg-white hover:text-primary-dark">
-                En savoir plus
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+<section
+  className="relative text-white py-20 bg-cover bg-center"
+  style={{
+    backgroundImage: "url('https://res.cloudinary.com/deebdv0jr/image/upload/v1744795094/Formation-wordpress-antibes_npzw8u.webp')",
+  }}
+>
+  {/* Filtre sombre pour lisibilité */}
+  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+  {/* Contenu Hero */}
+  <div className="relative z-10 container-custom">
+    <div className="max-w-3xl mx-auto text-center">
+      <h1 className="text-5xl font-bold mb-6 text-white">
+        Formez-vous à l'autonomie digitale grâce à nos formations WordPress
+      </h1>
+      <p className="text-xl mb-8">
+        Des formations sur-mesure pour artisans, commerçants et indépendants en région PACA
+      </p>
+      <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        <Link href="/contact" className="btn bg-white text-primary-dark hover:bg-gray-100">
+          Personnaliser votre formation
+        </Link>
+        <Link href="/a-propos" className="btn border-2 border-white text-white hover:bg-white hover:text-primary-dark">
+          En savoir plus
+        </Link>
+      </div>
+    </div>
+  </div>
+</section>
+
 
       {/* Thématiques Section */}
       <section className="section bg-gray-50">

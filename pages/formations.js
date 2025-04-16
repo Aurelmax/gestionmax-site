@@ -121,16 +121,28 @@ export default function Formations() {
   return (
     <div>
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-primary-dark to-secondary-dark text-white py-20">
-        <div className="container-custom">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6 text-white">Catalogue de Formations</h1>
-            <p className="text-xl mb-8">
-              Des formations WordPress sur-mesure pour développer vos compétences digitales
-            </p>
-          </div>
-        </div>
-      </section>
+<section
+  className="relative text-white py-20 bg-cover bg-center"
+  style={{
+    backgroundImage: "url('https://res.cloudinary.com/deebdv0jr/image/upload/v1744795094/Formation-wordpress-antibes_npzw8u.webp')",
+  }}
+>
+  {/* Filtre noir transparent pour lisibilité */}
+  <div className="absolute inset-0 bg-black bg-opacity-50"></div>
+
+  {/* Contenu de la section */}
+  <div className="relative z-10 container-custom">
+    <div className="max-w-3xl mx-auto text-center">
+      <h1 className="text-5xl font-bold mb-6 text-white">
+        Catalogue de Formations
+      </h1>
+      <p className="text-xl mb-8">
+        Des formations WordPress sur-mesure pour développer vos compétences digitales
+      </p>
+    </div>
+  </div>
+</section>
+
 
       {/* Formations Catalogue */}
       {formationCategories.map((category) => (
