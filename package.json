@@ -4,11 +4,13 @@
   "description": "Site vitrine professionnel pour Gestionmax, consultant formateur WordPress basé à Antibes",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "lint": "next lint",
+  "export": "next export"
+},
+
   "keywords": [
     "formation",
     "wordpress",
