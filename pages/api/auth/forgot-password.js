@@ -1,9 +1,12 @@
-export default async function handler(req, res) {
+// pages/api/auth/forgot-password.js
+
+export default function handler(req, res) {
     if (req.method !== 'POST') {
-      return res.status(405).json({ success: false, message: 'Méthode non autorisée' });
+      return res.status(405).json({ message: 'Méthode non autorisée' });
     }
   
-    // Logique de traitement du forgot password (ex: envoi d'email avec token)
-    return res.status(200).json({ success: true, message: 'Email envoyé (simulation)' });
+    // Traitement fictif de la demande (à adapter à ton système)
+    return res.status(200).json({ message: 'Email de réinitialisation envoyé (exemple)' });
   }
+  
   
