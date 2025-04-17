@@ -1,3 +1,4 @@
+console.log("ENV ACTUEL :", process.env.NODE_ENV);
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { verifyCredentials } from '../../../lib/auth';
@@ -11,11 +12,10 @@ export default NextAuth({
         password: { label: "Mot de passe", type: "password" }
       },
       async authorize(credentials) {
-        // En développement, accepter n'importe quels identifiants
-        const isDevelopment = process.env.NODE_ENV === 'development';
-        
-        if (isDevelopment) {
-          // En développement, retourner un utilisateur fictif
+        const isTest = process.env.NODE_ENV !== 'production';
+
+        if (isTest) {
+          // En test (ou développement), retourner un utilisateur fictif
           return {
             id: 1,
             name: 'Administrateur',
@@ -23,15 +23,15 @@ export default NextAuth({
             role: 'admin',
           };
         }
-        
+
         // En production, vérifier les identifiants
         if (!credentials) return null;
-        
+
         try {
           const user = await verifyCredentials(credentials);
           return user;
         } catch (error) {
-          console.error('Erreur d\'authentification:', error);
+          console.error("Erreur d'authentification :", error);
           return null;
         }
       }
@@ -62,4 +62,4 @@ export default NextAuth({
     }
   },
   secret: process.env.NEXTAUTH_SECRET || 'votre-secret-temporaire-a-changer-en-production',
-});
+})

@@ -30,7 +30,7 @@ export default function LegalNotice() {
               Adresse : Antibes, Alpes-Maritimes (06)<br />
               Email : contact@gestionmax.fr<br />
               Téléphone : +33 4 00 00 00 00<br />
-              SIRET : 00000000000000
+              SIRET : 483 797 213 000 61
             </p>
 
             <h3>2. Présentation et principe :</h3>
