@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { saveDocument, getLearnerById } from '../../../../lib/learners';
+import { serverOnlyFunctions, getLearnerById } from '../../../../lib/learners';
 import { verifyToken } from '../../../../lib/auth';
 
 // Configuration de multer pour le stockage en mémoire
@@ -75,7 +75,7 @@ export default async function handler(req, res) {
     }
 
     // Sauvegarder le document
-    const savedDocument = await saveDocument(req.file, type, id);
+    const savedDocument = await serverOnlyFunctions.saveDocument(req.file, type, id);
 
     // Répondre avec les informations du document
     return res.status(200).json({ success: true, document: savedDocument });
