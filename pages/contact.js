@@ -50,7 +50,7 @@ export default function Contact() {
 
   return (
     <div>
-      {{/* Hero Section - Contact & Ressources */}
+      {/* Hero Section - Contact & Ressources */}
 <section
   className="relative text-white py-20 bg-cover bg-center"
   style={{
