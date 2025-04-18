@@ -1,7 +1,13 @@
+// Affiche l'environnement d'exécution (développement ou production)
 console.log("ENV ACTUEL :", process.env.NODE_ENV);
+
+// Import des modules nécessaires pour l'authentification
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { verifyCredentials } from '../../../lib/auth';
+
+// Import de la fonction de vérification des identifiants
+import { verifyCredentials } from '../../../lib/auth/verifyCredentials';
+
 
 export default NextAuth({
   providers: [
@@ -12,19 +18,7 @@ export default NextAuth({
         password: { label: "Mot de passe", type: "password" }
       },
       async authorize(credentials) {
-        const isTest = process.env.NODE_ENV !== 'production';
-
-        if (isTest) {
-          // En test (ou développement), retourner un utilisateur fictif
-          return {
-            id: 1,
-            name: 'Administrateur',
-            email: 'admin@gestionmax.fr',
-            role: 'admin',
-          };
-        }
-
-        // En production, vérifier les identifiants
+        // Utiliser directement verifyCredentials pour harmoniser la logique
         if (!credentials) return null;
 
         try {
