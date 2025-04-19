@@ -1,0 +1,7 @@
+// Exemple d'usage (dans un fichier API route)
+import pool from '@/lib/db'
+
+const result = await pool.query(
+  'SELECT * FROM users WHERE username = $1',
+  ['admin']
+)

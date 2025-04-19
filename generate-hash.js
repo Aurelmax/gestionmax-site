@@ -8,7 +8,7 @@ const salt = '$2a$12$' + require('crypto')
   .replace(/\+/g, '.')
   .replace(/\//g, '.');
 
-const password = 'nouveaumotdepasse2025!';
+const password = 'JaimeLeweb';
 
 bcrypt.hash(password, salt).then((hash) => {
   console.log('Hash $2a$ généré :', hash);

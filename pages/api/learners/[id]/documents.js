@@ -1,5 +1,6 @@
-import { getLearnerDocuments, getLearnerById } from '../../../../lib/learners';
-import { verifyToken } from '../../../../lib/auth';
+import { verifyToken } from 'lib/auth';
+import { getLearnerDocuments } from 'lib/users/learners';
+
 
 export default async function handler(req, res) {
   // Vérifier la méthode HTTP

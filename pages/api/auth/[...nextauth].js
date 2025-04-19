@@ -1,59 +1,74 @@
-// Affiche l'environnement d'exécution (développement ou production)
-console.log("ENV ACTUEL :", process.env.NODE_ENV);
+import NextAuth from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
+import pool from "../../../lib/db"; // <-- utilise le pool
 
-// Import des modules nécessaires pour l'authentification
-import NextAuth from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
-
-// Import de la fonction de vérification des identifiants
-import { verifyCredentials } from '../../../lib/auth/verifyCredentials';
-
-
-export default NextAuth({
+export const authOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Credentials',
+      name: "Credentials",
       credentials: {
         username: { label: "Nom d'utilisateur", type: "text" },
         password: { label: "Mot de passe", type: "password" }
       },
       async authorize(credentials) {
-        // Utiliser directement verifyCredentials pour harmoniser la logique
-        if (!credentials) return null;
+        const client = await pool.connect();
 
         try {
-          const user = await verifyCredentials(credentials);
-          return user;
-        } catch (error) {
-          console.error("Erreur d'authentification :", error);
+          const res = await client.query(
+            "SELECT * FROM users WHERE username = $1",
+            [credentials.username]
+          );
+
+          const user = res.rows[0];
+
+          if (!user) {
+            throw new Error("Utilisateur non trouvé");
+          }
+
+          const isValid = await bcrypt.compare(
+            credentials.password,
+            user.password_hash
+          );
+
+          if (!isValid) {
+            throw new Error("Mot de passe incorrect");
+          }
+
+          return {
+            id: user.id,
+            name: user.username,
+            role: user.role
+          };
+        } catch (err) {
+          console.error("Erreur d'auth:", err);
           return null;
+        } finally {
+          client.release(); // <-- libère proprement
         }
       }
     })
   ],
-  session: {
-    strategy: 'jwt',
-    maxAge: 30 * 24 * 60 * 60, // 30 jours
-  },
   pages: {
-    signIn: '/admin/login',
-    error: '/admin/login',
+    signIn: "/admin/login"
+  },
+  session: {
+    strategy: "jwt"
   },
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
         token.role = user.role;
       }
       return token;
     },
     async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id;
-        session.user.role = token.role;
-      }
+      session.user.role = token.role;
       return session;
     }
-  },
-  secret: process.env.NEXTAUTH_SECRET || 'votre-secret-temporaire-a-changer-en-production',
-})
+  }
+};
+
+const handler = NextAuth(authOptions);
+
+export default handler;

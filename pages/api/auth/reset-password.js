@@ -1,4 +1,4 @@
-import { verifyResetToken } from '../../../lib/password-reset';
+import { verifyResetToken } from '../../../lib/auth/password-reset';
 import { hash } from 'bcryptjs';
 
 export default async function handler(req, res) {

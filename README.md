@@ -10,16 +10,17 @@ Site vitrine professionnel pour Gestionmax, consultant formateur WordPress basé
 - NextAuth.js - Authentification et gestion des sessions
 - Nodemailer - Envoi d'emails pour la récupération de mot de passe
 - bcryptjs - Hachage sécurisé des mots de passe
+- PostgreSQL - Base de données pour l'authentification et la gestion des données
 
 ## Structure du projet
 
 - `/pages` - Pages du site (accueil, à propos, blog, contact, mentions légales)
-  - `/pages/admin` - Pages d'administration (login, forgot-password, reset-password)
+  - `/pages/admin` - Pages d'administration (login, forgot-password, reset-password, gestion des apprenants)
   - `/pages/api` - API Routes pour l'authentification et les fonctionnalités backend
 - `/components` - Composants réutilisables (navbar, footer, layout)
-- `/public` - Ressources statiques (images, favicon)
+- `/public` - Ressources statiques (images, favicon, uploads)
 - `/styles` - Styles CSS globaux et configuration Tailwind
-- `/lib` - Bibliothèques et utilitaires (auth, email, password-reset)
+- `/lib` - Bibliothèques et utilitaires (auth, email, password-reset, media)
 
 ## Fonctionnalités
 
@@ -29,26 +30,48 @@ Site vitrine professionnel pour Gestionmax, consultant formateur WordPress basé
 - Espace ressources pour téléchargement de documents
 - Blog/Actualités avec système de catégories
 - Intégration de newsletter
-- Système d'authentification administrateur
+- Système d'authentification administrateur avec base de données PostgreSQL
 - Récupération de mot de passe par email
+- Gestion des médias avec upload d'images
+- Interface d'administration pour les apprenants
 
 ## Système d'authentification
 
-Le site utilise NextAuth.js pour gérer l'authentification administrateur avec les fonctionnalités suivantes :
+Le site utilise NextAuth.js avec une base de données PostgreSQL pour gérer l'authentification administrateur avec les fonctionnalités suivantes :
 
 ### Connexion administrateur
-- Authentification par identifiants (nom d'utilisateur/mot de passe)
-- Sessions JWT sécurisées avec une durée de 30 jours
-- Mode développement avec authentification automatique pour faciliter les tests
+- Authentification par identifiants (nom d'utilisateur/mot de passe) stockés en base de données PostgreSQL
+- Hachage sécurisé des mots de passe avec bcrypt
+- Sessions JWT sécurisées avec une durée configurable
+- Support multi-utilisateurs avec différents rôles
 
-### Récupération de mot de passe
-Le système de récupération de mot de passe permet à l'administrateur de réinitialiser son mot de passe en cas d'oubli :
+### Base de données PostgreSQL
+La base de données PostgreSQL contient une table `users` avec les colonnes suivantes :
+- `id` : Identifiant unique de l'utilisateur
+- `username` : Nom d'utilisateur
+- `password_hash` : Hash du mot de passe (généré avec bcrypt)
+- `role` : Rôle de l'utilisateur (admin, etc.)
+- `created_at` : Date de création du compte
+- `updated_at` : Date de dernière mise à jour
 
-1. L'administrateur demande une réinitialisation via la page `/admin/forgot-password`
-2. Un email contenant un lien de réinitialisation temporaire est envoyé à l'adresse configurée
-3. Le lien dirige vers la page `/admin/reset-password` avec un token sécurisé
-4. L'administrateur définit un nouveau mot de passe
-5. Le système génère un nouveau hash de mot de passe à mettre à jour dans le fichier `.env.local`
+### Variables d'environnement
+Les variables d'environnement nécessaires sont :
+- `NEXTAUTH_URL` : URL de base du site (ex: http://localhost:3000 en développement)
+- `NEXTAUTH_SECRET` : Clé secrète pour signer les jetons JWT
+- `DATABASE_URL` : URL de connexion à la base de données PostgreSQL
+
+### Gestion des médias
+Le site inclut un système de gestion des médias avec les fonctionnalités suivantes :
+- Upload d'images avec vérification du type de fichier
+- Stockage sécurisé des fichiers dans le répertoire `/public/uploads`
+- Génération de noms de fichiers uniques pour éviter les conflits
+- API pour lister, télécharger et supprimer les fichiers médias
+
+### Gestion des apprenants
+Une interface d'administration permet de gérer les apprenants avec les fonctionnalités suivantes :
+- Liste des apprenants avec pagination
+- Ajout, modification et suppression d'apprenants
+- Stockage des informations dans la base de données PostgreSQL
 
 ## Configuration
 
@@ -76,6 +99,9 @@ EMAIL_SECURE=false                  # true pour SSL/TLS
 EMAIL_USER=votre-email@domaine.com  # Utilisateur SMTP
 EMAIL_PASSWORD=votre-mot-de-passe   # Mot de passe SMTP
 EMAIL_FROM=noreply@gestionmax.fr    # Adresse d'expédition
+
+# Base de données PostgreSQL
+DATABASE_URL=postgres://user:password@host:port/dbname
 ```
 
 ## Installation
@@ -101,17 +127,25 @@ npm run dev
 
 ## Déploiement
 
-Pour construire le site pour la production :
+### Environnement de développement
+1. Cloner le dépôt
+2. Installer les dépendances : `npm install`
+3. Créer un fichier `.env.local` avec les variables d'environnement nécessaires
+4. Lancer le serveur de développement : `npm run dev`
 
-```bash
-npm run build
-```
+### Déploiement sur Scalingo
+1. Configurer les variables d'environnement sur Scalingo :
+   - `NEXTAUTH_URL` : URL de production (https://www.gestionmax.fr)
+   - `NEXTAUTH_SECRET` : Clé secrète pour la production
+   - `DATABASE_URL` : `$SCALINGO_POSTGRESQL_URL`
+   - `NODE_ENV` : `production`
+2. Déployer l'application : `git push scalingo main`
 
-Pour démarrer le site en production :
-
-```bash
-npm run start
-```
+## Mise à jour (Avril 2025)
+- Migration de l'authentification depuis les variables d'environnement vers PostgreSQL
+- Ajout de la gestion des médias avec upload d'images
+- Création d'une interface d'administration pour les apprenants
+- Amélioration de la sécurité avec bcrypt et NextAuth.js
 
 ## Contact
 

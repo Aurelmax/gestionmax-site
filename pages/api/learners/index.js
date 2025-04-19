@@ -1,5 +1,5 @@
-import { getAllLearners } from '../../../lib/learners';
-import { verifyToken } from '../../../lib/auth';
+import { getAllLearners } from '../../../lib/users/learners.js';
+import { verifyToken } from '../../../lib/auth.js';
 
 export default async function handler(req, res) {
   // Vérifier la méthode HTTP

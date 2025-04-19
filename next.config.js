@@ -1,10 +1,8 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  images: {
-    domains: ['res.cloudinary.com'],
-    unoptimized: true, // ← désactive l’optimisation d’image côté serveur
-  },
-  reactStrictMode: true, // ← recommandé
-};
+const path = require('path');
 
-module.exports = nextConfig;
+module.exports = {
+  webpack: (config) => {
+    config.resolve.alias['lib'] = path.resolve(__dirname, 'lib');
+    return config;
+  },
+};

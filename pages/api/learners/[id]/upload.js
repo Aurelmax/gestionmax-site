@@ -1,5 +1,5 @@
 import multer from 'multer';
-import { serverOnlyFunctions, getLearnerById } from '../../../../lib/learners';
+import { serverOnlyFunctions, getLearnerById } from '../../../../lib/users/learners';
 import { verifyToken } from '../../../../lib/auth';
 
 // Configuration de multer pour le stockage en mémoire
